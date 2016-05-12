@@ -22,8 +22,8 @@ import org.apache.commons.fileupload.servlet.ServletRequestContext;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.jfbank.wallet.isp.fileupload.util.JsonUtil;
+import com.jfbank.wallet.isp.fileupload.util.PropUtil;
 
 /**
  * 文件上传服务
@@ -38,7 +38,7 @@ public class FileUploadServlet extends HttpServlet {
 	
 	private static final long FILE_MAX_SIZE = 1024 * 1024 * 200;
 	
-	private static final String URL = "http://static.9f.cn/";
+	private static final String prefix = PropUtil.getValue("force_prefix");
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -68,9 +68,15 @@ public class FileUploadServlet extends HttpServlet {
 	                if (fileItem.isFormField()) {
 	                	if("uploadFileName".equals(fileItem.getFieldName())) {
 	                		fileName = new String(fileItem.getString().getBytes("ISO-8859-1"), "UTF-8");
-	                		if(fileName.indexOf(URL) == -1) {
-	                			throw new Exception("文件url不正确");
+	                		if(prefix==""){
+	                			
 	                		}
+	                		else{
+	                			if(fileName.indexOf(prefix) == -1) {
+	                				throw new Exception("文件url不正确");
+		                		}
+	                		}
+	                		
 	                	}
 	                } else {
 	                	logger.info(fileItem.getFieldName() + " | "
@@ -109,19 +115,18 @@ public class FileUploadServlet extends HttpServlet {
 	}
 
 	private void saveFiles(String fileName, File file) throws IOException {
-		String savePath = fileName.substring(fileName.indexOf(URL) + URL.length()); //过滤域名
+		String savePath = fileName.substring(fileName.indexOf(prefix) + prefix.length()); //��������
 		savePath = SAVE_PATH + savePath.substring(0, savePath.indexOf(file.getName()));
 		// 查看是不存在目录如果不存在，则创建
-		File dir = new File(savePath);
-		if (!dir.exists()) {
-			dir.mkdirs();
-		}
-		File newFile = new File(savePath + "/" + file.getName());
-		if (newFile.exists()) {
-			throw new IOException("已存在文件名为【" + file.getName() + "]的文件");
-		}
-		FileUtils.copyFileToDirectory(file, dir);
-		logger.info("文件保存成功： " + savePath + "/" + file.getName());
-	}
-		
+				File dir = new File(savePath);
+				if (!dir.exists()) {
+					dir.mkdirs();
+				}
+				File newFile = new File(savePath + "/" + file.getName());
+				if (newFile.exists()) {
+					throw new IOException("已存在文件名为【" + file.getName() + "]的文件");
+				}
+				FileUtils.copyFileToDirectory(file, dir);
+				logger.info("文件保存成功： " + savePath + "/" + file.getName());
+			}
 }
