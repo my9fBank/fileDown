@@ -8,7 +8,7 @@ public class PropUtil
 
 	private static PropUtil instance = null;
 	private Properties props = null ;
-	private static String FILEPATH = "/config.properties";
+	private static String FILEPATH = "/smart.properties";
 	
 	private static synchronized PropUtil getInstatance(){
 		if(instance == null){
@@ -29,7 +29,7 @@ public class PropUtil
 			props.load(in);
 		}
 		catch (Exception e) {
-			//此处可根据你的日志框架进行记�?
+			//此处可根据你的日志框架进行记录
 			System.err.println("Error reading conf properties in PropertyManager.loadProps() " + e);
 			e.printStackTrace();
 		}
@@ -38,7 +38,7 @@ public class PropUtil
 				in.close();
 			} catch (Exception e) {
 				e.printStackTrace();
-				//此处可根据你的日志框架进行记�?
+				//此处可根据你的日志框架进行记录
 			}
 		}
 	}
