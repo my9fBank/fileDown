@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<project name="maven-antrun-" default="main"  >
-<target name="main">
-  <copydir src="/home/zhangyanfei/KuaiPan/9fbank/code/file-service/src/main/filters/online/" forceoverwrite="true" dest="/home/zhangyanfei/KuaiPan/9fbank/code/file-service/target/classes/"></copydir>
-</target>
-</project>
