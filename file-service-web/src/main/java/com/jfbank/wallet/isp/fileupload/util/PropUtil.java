@@ -8,7 +8,7 @@ public class PropUtil
 
 	private static PropUtil instance = null;
 	private Properties props = null ;
-	private static String FILEPATH = "/smart.properties";
+	private static String FILEPATH = "/config.properties";
 	
 	private static synchronized PropUtil getInstatance(){
 		if(instance == null){
