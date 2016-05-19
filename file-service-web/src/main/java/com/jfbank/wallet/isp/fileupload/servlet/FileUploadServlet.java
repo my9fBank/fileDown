@@ -58,6 +58,7 @@ public class FileUploadServlet extends HttpServlet {
             fileUpload.setHeaderEncoding("UTF-8");
             fileUpload.setFileSizeMax(FILE_MAX_SIZE);
             List<FileItem> items = new ArrayList<FileItem>();
+            logger.info("文件名前缀是       "+prefix);
             try {
                 items = fileUpload.parseRequest(request);
 	            String fileName = "";
@@ -115,8 +116,9 @@ public class FileUploadServlet extends HttpServlet {
 	}
 
 	private void saveFiles(String fileName, File file) throws IOException {
-		String savePath = fileName.substring(fileName.indexOf(prefix) + prefix.length()); //��������
+		String savePath = fileName.substring(fileName.indexOf(prefix) + prefix.length()); //过滤域名
 		savePath = SAVE_PATH + savePath.substring(0, savePath.indexOf(file.getName()));
+		 logger.info("文件存储路径是       "+savePath);
 		// 查看是不存在目录如果不存在，则创建
 				File dir = new File(savePath);
 				if (!dir.exists()) {
